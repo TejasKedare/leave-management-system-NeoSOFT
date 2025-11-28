@@ -1,0 +1,21 @@
+.register-box {
+  margin-top: 1.5rem;
+}
+
+.register-text {
+  font-size: 0.95rem;
+  margin-bottom: 0.4rem;
+  color: rgba(#0f172a, 0.7);
+}
+
+.register-link {
+  font-weight: 600;
+  color: #4f46e5;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.register-link:hover {
+  text-decoration: underline;
+  color: darken(#4f46e5, 10%);
+}

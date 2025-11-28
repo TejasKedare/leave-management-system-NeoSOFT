@@ -1,1 +1,163 @@
-/* You can add global styles to this file, and also import other style files */
+@import "bootstrap/scss/bootstrap";
+
+
+$primary: #4f46e5;     // Indigo
+$secondary: #06b6d4;   // Cyan
+$success: #10b981;     // Green
+$danger: #ef4444;      // Red
+$warning: #f59e0b;     // Amber
+$info: #3b82f6;        // Blue
+$light: #f8fafc;       // Off White
+$dark: #0f172a;        // Navy Slate
+
+$body-bg: #f6f8fb;
+$body-color: #0b1220;
+
+$font-family-base: "Inter", sans-serif;
+
+body {
+  background: #f6f8fb; // matches your body-bg
+  color: #0b1220;
+  font-family: "Inter", sans-serif;
+}
+/* -- GENERIC SPLIT SCREEN LAYOUT -- */
+.layout-split {
+  display: flex;
+  min-height: 100vh;
+  background: $body-bg;
+}
+
+/* LEFT SIDE (Form Area) */
+.layout-left {
+  flex: 1.2;                // More space for form
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 3rem;            // Larger padding
+}
+
+/* FORM CARD (Make Bigger) */
+.form-card {
+  background: $light;
+  padding: 3rem 2.5rem;     // Bigger form
+  border-radius: 1.2rem;
+  width: 600px;             // Increased width
+  max-width: 95%;
+  box-shadow: 0 14px 34px rgba($dark, 0.12);
+}
+
+/* FORM HEADER */
+.form-header {
+  text-align: center;
+  margin-bottom: 2.2rem;
+}
+
+.form-title {
+  font-size: 1.9rem;         // Larger heading
+  font-weight: 700;
+  color: $primary;
+  margin: 0;
+}
+
+.form-subtitle {
+  font-size: 1rem;
+  color: rgba($dark, 0.55);
+  margin-top: 0.35rem;
+}
+
+/* FORM ELEMENTS */
+.form-group {
+  margin-bottom: 1.4rem;
+}
+
+.app-label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.45rem;
+  color: $body-color;
+}
+
+.app-input {
+  width: 100%;
+  border: 1px solid rgba($dark, 0.18);
+  border-radius: 0.65rem;
+  padding: 0.85rem 1rem;
+  font-size: 1rem;
+  background-color: $light;
+  transition: all 0.25s ease;
+  outline: none;
+}
+
+.app-input:focus {
+  border-color: $primary;
+  box-shadow: 0 0 0 0.18rem rgba($primary, 0.18);
+}
+
+/* BUTTON */
+.app-btn {
+  width: 100%;
+  background: $primary;
+  color: $light;
+  border: none;
+  padding: 0.9rem 1.2rem;     // Larger button
+  border-radius: 0.65rem;
+  font-weight: 600;
+  font-size: 1.1rem;          // Bigger font
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba($primary, 0.25);
+  transition: all 0.25s ease;
+}
+
+.app-btn:hover {
+  background: darken($primary, 6%);
+  box-shadow: 0 10px 26px rgba($primary, 0.35);
+}
+
+/* RIGHT SIDE (Brand or Image) */
+.layout-right {
+  flex: 1;
+  background: $primary;
+  color: $light;
+  padding: 4rem 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.side-title {
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.side-text {
+  font-size: 1.1rem;
+  opacity: 0.9;
+  line-height: 1.7;
+}
+
+.side-image {
+  max-width: 80%;
+  margin-top: 2rem;
+}
+
+.asterisks {
+  color: $danger; 
+  font-weight: 700;
+}
+
+/* RESPONSIVE */
+@media (max-width: 992px) {
+  .layout-split {
+    flex-direction: column;
+  }
+
+  .layout-right {
+    padding: 2rem;
+    text-align: center;
+  }
+
+  .side-image {
+    margin: 1rem auto 0;
+  }
+}

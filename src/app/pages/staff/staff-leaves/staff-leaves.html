@@ -1,0 +1,59 @@
+<div class="container py-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="text-primary fw-bold">My Leaves</h2>
+    <button class="btn btn-primary" (click)="showApply = !showApply">{{ showApply ? 'Close' : 'Apply Leave' }}</button>
+  </div>
+
+  <div *ngIf="showApply" class="card p-3 mb-3">
+    <form [formGroup]="form" (ngSubmit)="apply()">
+      <div class="row g-2">
+        <div class="col-md-4">
+          <label>From</label>
+          <input class="form-control" type="date" formControlName="fromDate" />
+        </div>
+        <div class="col-md-4">
+          <label>To</label>
+          <input class="form-control" type="date" formControlName="toDate" />
+        </div>
+        <div class="col-md-4">
+          <label>Reason</label>
+          <input class="form-control" formControlName="reason" />
+        </div>
+      </div>
+      <button class="btn btn-primary mt-3" type="submit">Apply</button>
+    </form>
+  </div>
+
+  <table class="table table-hover shadow-sm">
+    <thead>
+      <tr>
+        <th>Sr No.</th>
+        <th>From</th>
+        <th>To</th>
+        <th>Reason</th>
+        <th>Status</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let l of leaves; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td>{{ l.fromDate }}</td>
+        <td>{{ l.toDate }}</td>
+        <td>{{ l.reason }}</td>
+        <td>
+          <span class="badge"
+                [class.bg-warning]="l.status==='PENDING'"
+                [class.bg-success]="l.status==='APPROVED'"
+                [class.bg-danger]="l.status==='REJECTED'">
+            {{ l.status }}
+          </span>
+        </td>
+        <td>
+          <button class="btn btn-info btn-sm" (click)="view(l)">View</button>
+        </td>
+      </tr>
+      <tr *ngIf="!leaves.length"><td colspan="6" class="text-center text-muted">No leaves found</td></tr>
+    </tbody>
+  </table>
+</div>

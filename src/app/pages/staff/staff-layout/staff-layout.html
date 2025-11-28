@@ -1,0 +1,27 @@
+<div class="layout">
+
+  <aside class="sidebar">
+    <div class="user-box text-center mb-3">
+      <div class="avatar mb-2">
+        <img *ngIf="user?.profileImage" [src]="user?.profileImage" class="avatar-img" />
+        <div *ngIf="!user?.profileImage" class="avatar-fallback">{{ initials }}</div>
+      </div>
+      <div class="user-name">{{ user?.name }}</div>
+      <div class="user-username">@{{ user?.username }}</div>
+      <div class="user-dept">Dept: {{ user?.department }}</div>
+    </div>
+
+    <nav class="nav flex-column">
+      <a routerLink="/staff/dashboard" routerLinkActive="active" class="menu-item">Dashboard</a>
+      <a routerLink="/staff/leaves" routerLinkActive="active" class="menu-item">Leave Management</a>
+    </nav>
+
+    <div class="sidebar-bottom mt-auto">
+      <button class="btn btn-outline-light w-100" (click)="logout()">Logout</button>
+    </div>
+  </aside>
+
+  <main class="content">
+    <router-outlet></router-outlet>
+  </main>
+</div>

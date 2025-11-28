@@ -1,0 +1,101 @@
+/* wrapper */
+.layout {
+  min-height: 100vh;
+  background: #f6f8fb
+}
+
+/* FIXED SIDEBAR */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 260px;
+  background: #4f46e5;
+  padding: 1.5rem;
+  color: #f8fafc;
+  display: flex;
+  flex-direction: column;
+  z-index: 50;
+  box-shadow: 2px 0 8px rgba(0,0,0,0.03);
+}
+
+/* main content: push right to make room for fixed sidebar */
+.content {
+  margin-left: 260px; /* same as sidebar width */
+  padding: 2rem;
+  min-height: 100vh;
+  background: #f6f8fb;
+}
+
+.menu-item {
+  display: block;
+  padding: 0.7rem 1rem;
+  border-radius: 0.5rem;
+  color: #f8fafc;
+  text-decoration: none;
+  margin-bottom: 0.3rem;
+  transition: 0.2s;
+}
+
+.menu-item:hover {
+  background: rgba(255,255,255,0.1);
+}
+
+.active {
+  background: rgba(255,255,255,0.2);
+}
+
+/* keep logout pinned at bottom of sidebar */
+.sidebar-bottom {
+  margin-top: auto;
+}
+
+.avatar {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  overflow: hidden;     /* Prevents the image from escaping */
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #eee;
+}
+
+.avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;     /* Ensures the image fits inside circle */
+  border-radius: 50%;
+}
+
+.avatar-fallback {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: #bbb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  color: white;
+  font-weight: bold;
+}
+
+
+/* responsive: collapse sidebar on small screens */
+@media (max-width: 992px) {
+  .sidebar {
+    position: relative;
+    width: 100%;
+    height: auto;
+    box-shadow: none;
+  }
+
+  .content {
+    margin-left: 0;
+    padding: 1rem;
+  }
+}
+

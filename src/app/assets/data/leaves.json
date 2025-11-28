@@ -1,0 +1,12 @@
+[
+  {
+    "id": 1,
+    "staffId": 2,
+    "staffName": "Staff One",
+    "fromDate": "2025-11-01",
+    "toDate": "2025-11-02",
+    "reason": "Medical",
+    "status": "PENDING",
+    "appliedOn": "2025-10-25T10:00:00.000Z"
+  }
+]

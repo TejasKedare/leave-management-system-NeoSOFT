@@ -1,0 +1,106 @@
+<div class="layout-split">
+
+  <div class="layout-left">
+    <div class="form-card">
+
+      <div class="profile-photo-wrapper text-center mb-3">
+        <label class="photo-circle d-inline-block">
+          <input type="file" class="photo-input" (change)="onFileChange($event)">
+
+          <!-- Upload preview -->
+          <img *ngIf="profilePreview" [src]="profilePreview" alt="preview" />
+
+          <!-- Plus icon (shown only when no image) -->
+          <span class="photo-text" *ngIf="!profilePreview">+</span>
+        </label>
+
+        <p class="photo-label">Add Profile Photo</p>
+      </div>
+
+      <div class="form-header">
+        <h3 class="form-title">Create Your Account</h3>
+        <p class="form-subtitle">Register as {{ role === 'HOD' ? 'HOD' : 'Staff Member' }}</p>
+      </div>
+
+      <form (ngSubmit)="submit()" [formGroup]="form" novalidate>
+
+        <div class="form-row d-flex gap-2">
+          <div class="form-group half" style="flex:1">
+            <label class="app-label required">Full Name</label>
+            <input type="text" class="app-input" formControlName="name">
+          </div>
+
+          <div class="form-group half" style="flex:1">
+            <label class="app-label required">Username</label>
+            <input type="text" class="app-input" formControlName="username">
+          </div>
+        </div>
+
+        <div class="form-row d-flex gap-2">
+          <div class="form-group half" style="flex:1">
+            <label class="app-label required">Email</label>
+            <input type="email" class="app-input" formControlName="email">
+          </div>
+
+          <div class="form-group half" style="flex:1">
+            <label class="app-label required">Contact Number</label>
+            <input type="text" class="app-input" formControlName="mobile">
+          </div>
+        </div>
+
+        <div class="form-row d-flex gap-2">
+          <div class="form-group half" style="flex:1">
+            <label class="app-label required">Department</label>
+            <select class="app-input" formControlName="department">
+              <option value="" disabled>Select Department</option>
+              <option>Computer Engineering</option>
+              <option>IT</option>
+              <option>Mechanical Engineering</option>
+              <option>Civil Engineering</option>
+              <option>Electronics Engineering</option>
+            </select>
+          </div>
+
+          <div class="form-group half" style="flex:1">
+            <label class="app-label required">Password</label>
+            <input type="password" class="app-input" formControlName="password">
+          </div>
+        </div>
+
+        <button type="submit" class="app-btn mt-3">Register</button>
+
+      </form>
+
+      <div class="register-box mt-4 text-center">
+        <p class="register-text">Already registered?</p>
+        <a routerLink="/auth/login" class="register-link">
+          Login here
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="layout-right">
+
+    <ng-container *ngIf="role === 'HOD'; else staffRight">
+      <h2 class="side-title">Lead Your Department</h2>
+      <p class="side-text">
+        As the Head of Department, you can manage staff records,<br>
+        review leave applications, approve or reject requests,<br>
+        and ensure smooth departmental operations.
+      </p>
+    </ng-container>
+
+    <ng-template #staffRight>
+      <h2 class="side-title">Welcome to Your Portal</h2>
+      <p class="side-text">
+        As a Staff Member, you can apply for leaves, view leave history,<br>
+        track approval status, and stay updated with departmental<br>
+        processes seamlessly.
+      </p>
+    </ng-template>
+
+  </div>
+
+</div>

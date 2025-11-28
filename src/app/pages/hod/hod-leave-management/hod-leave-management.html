@@ -1,0 +1,58 @@
+<div class="container py-4">
+
+  <h2 class="text-primary fw-bold mb-4">Leave Management</h2>
+
+  <table class="table table-hover shadow-sm">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Staff</th>
+        <th>From</th>
+        <th>To</th>
+        <th>Reason</th>
+        <th>Status</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let l of leaves; let i = index;">
+        <td>{{ i + 1 }}</td>
+        <td>{{ l.staffName }}</td>
+        <td>{{ l.fromDate }}</td>
+        <td>{{ l.toDate }}</td>
+        <td>{{ l.reason }}</td>
+
+        <td>
+          <span class="badge"
+                [class.bg-warning]="l.status === 'PENDING'"
+                [class.bg-success]="l.status === 'APPROVED'"
+                [class.bg-danger]="l.status === 'REJECTED'">
+            {{ l.status }}
+          </span>
+        </td>
+
+        <td>
+          <button class="btn btn-info btn-sm me-2" (click)="viewDetails(l)">View</button>
+
+          <button class="btn btn-success btn-sm me-2"
+                  [disabled]="l.status !== 'PENDING'"
+                  (click)="approve(l.id)">
+            Approve
+          </button>
+
+          <button class="btn btn-danger btn-sm"
+                  [disabled]="l.status !== 'PENDING'"
+                  (click)="reject(l.id)">
+            Reject
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p class="text-center text-muted" *ngIf="!leaves.length">
+    No leave requests found.
+  </p>
+
+</div>

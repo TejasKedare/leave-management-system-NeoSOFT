@@ -1,0 +1,11 @@
+[
+  {
+    "id": 1,
+    "name": "Dr. Example HOD",
+    "username": "hod1",
+    "email": "hod@example.com",
+    "mobile": "9999999999",
+    "department": "IT",
+    "role": "HOD"
+  }
+]

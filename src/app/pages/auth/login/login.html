@@ -1,0 +1,50 @@
+<div class="layout-split">
+  
+  <div class="layout-left">
+    <div class="form-card">
+
+      <div class="form-header">
+        <h3 class="form-title">Welcome Back</h3>
+        <p class="form-subtitle">Login with your Staff or HOD account</p>
+      </div>
+
+      <form [formGroup]="form" (ngSubmit)="submit()">
+
+        <div class="form-group">
+          <label class="app-label">Username</label>
+          <input type="text" class="app-input" formControlName="username" placeholder="Enter your username">
+        </div>
+
+        <div class="form-group">
+          <label class="app-label">Password</label>
+          <input type="password" class="app-input" formControlName="password" placeholder="Enter your password">
+        </div>
+
+        <button type="submit" class="app-btn">Login</button>
+
+      </form>
+
+      <div class="register-box mt-4 text-center">
+        <p class="register-text">Not registered?</p>
+
+        <a routerLink="/auth/register/hod" class="register-link">
+          Register as HOD
+        </a>
+        <span class="mx-2 text-muted">|</span>
+        <a routerLink="/auth/register/staff" class="register-link">
+          Register as Staff
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="layout-right">
+    <h2 class="side-title">Staff & Leave<br>Management System</h2>
+    <p class="side-text">
+      Manage staff records, apply leaves, approve requests,<br>
+      and streamline departmental workflow.
+    </p>
+  </div>
+
+</div>

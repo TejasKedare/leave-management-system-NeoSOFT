@@ -1,0 +1,20 @@
+[
+  {
+    "id": 2,
+    "name": "Staff One",
+    "username": "staff1",
+    "email": "staff1@example.com",
+    "mobile": "8888888888",
+    "department": "IT",
+    "role": "STAFF"
+  },
+  {
+    "id": 3,
+    "name": "Staff Two",
+    "username": "staff2",
+    "email": "staff2@example.com",
+    "mobile": "7777777777",
+    "department": "IT",
+    "role": "STAFF"
+  }
+]
