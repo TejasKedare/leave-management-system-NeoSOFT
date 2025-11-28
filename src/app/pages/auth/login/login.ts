@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../../services/auth.service';
 import { Router, RouterLink } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule,RouterLink,ReactiveFormsModule],
+  imports: [CommonModule, RouterLink, ReactiveFormsModule],
   templateUrl: './login.html',
   styleUrls: ['./login.scss']
 })
@@ -15,22 +16,27 @@ export class Login {
 
   form: any;
 
+
   constructor(
     private fb: FormBuilder,
     private auth: AuthService,
-    private router: Router
-  ) {}
+    private router: Router,
+    private toastr: ToastrService
+  ) { }
+
 
   ngOnInit() {
     this.form = this.fb.group({
       username: ['', Validators.required],
       password: ['', Validators.required]
     });
+
   }
+
 
   submit() {
     if (this.form.invalid) {
-      alert("Please fill in both fields.");
+      this.form.markAllAsTouched();
       return;
     }
 
@@ -38,7 +44,7 @@ export class Login {
 
     this.auth.login(username!, password!).subscribe((res: any) => {
       if (!res.success) {
-        alert(res.message || "Invalid username or password");
+        this.toastr.error(res.message || "Invalid username or password");
         return;
       }
 

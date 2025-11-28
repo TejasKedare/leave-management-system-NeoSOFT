@@ -115,28 +115,40 @@ export class HodDataService {
   // STAFF CRUD
   // ----------------------------------------------------------------
   addStaff(newStaff: any) {
+  try {
     const staff = this.getStaff();
 
-    // Use provided id if valid, otherwise create a stable incremental id
     const providedId = newStaff.id ? Number(newStaff.id) : NaN;
     const newId = !Number.isNaN(providedId)
       ? providedId
       : (staff.length > 0 ? Math.max(...staff.map(s => Number(s.id))) + 1 : 1);
 
     newStaff.id = newId;
-
     staff.push(newStaff);
-    localStorage.setItem(STAFF_KEY, JSON.stringify(staff));
 
-    return true;
+    localStorage.setItem('app_staff', JSON.stringify(staff));
+
+    return { success: true, message: "Staff added successfully" };
+
+  } catch (err) {
+    return { success: false, message: "Failed to add staff" };
   }
+}
+
 
 
   deleteStaff(id: number) {
+  try {
     const staff = this.getStaff().filter(s => s.id !== id);
-    localStorage.setItem(STAFF_KEY, JSON.stringify(staff));
-    return true;
+    localStorage.setItem('app_staff', JSON.stringify(staff));
+
+    return { success: true, message: "Staff deleted successfully" };
+
+  } catch {
+    return { success: false, message: "Failed to delete staff" };
   }
+}
+
 
   getStaffByDepartment(dept: string) {
     return this.getStaff().filter(s => s.department === dept);

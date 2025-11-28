@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HodDataService } from '../../../services/hod.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-staff-management',
@@ -31,8 +32,9 @@ export class StaffManagement {
 
   constructor(
     private hodData: HodDataService,
-    private fb: FormBuilder
-  ) {}
+    private fb: FormBuilder,
+    private toastr: ToastrService
+  ) { }
 
   ngOnInit() {
 
@@ -45,7 +47,6 @@ export class StaffManagement {
       department: [this.department]
     });
 
-    // FIX 2 — actually load staff initially
     this.loadStaff();
   }
 
@@ -55,7 +56,6 @@ export class StaffManagement {
     this.applyFilters();
   }
 
-  // FILTER + SORT + PAGINATION
   applyFilters() {
     let data = [...this.staffList];
 
@@ -106,22 +106,35 @@ export class StaffManagement {
 
   // ADD STAFF
   addStaff() {
-    if (this.addForm.invalid) return;
+    if (!this.addForm) return;
 
+    if (this.addForm.invalid) {
+      Object.keys(this.addForm.controls).forEach(key => {
+        this.addForm.controls[key].markAsTouched();
+      });
+      this.toastr.error("Please fill all required fields correctly.", "Form Error");
+      return;
+    }
     this.hodData.addStaff(this.addForm.value);
-
+    this.toastr.success("Staff added successfully!", "Success");
     this.showAdd = false;
-
-    // FIX 3 — reset with department
+    // Reset form but keep department
     this.addForm.reset({ department: this.department });
-
     this.loadStaff();
   }
+
 
   // DELETE STAFF
   deleteStaff(id: number) {
     if (!confirm('Delete this staff?')) return;
     this.hodData.deleteStaff(id);
+    this.toastr.success("Staff deleted successfully!", "Deleted");
     this.loadStaff();
   }
+
+  get f() {
+    return this.addForm.controls;
+  }
+
+
 }

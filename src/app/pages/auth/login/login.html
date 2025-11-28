@@ -1,5 +1,5 @@
 <div class="layout-split">
-  
+
   <div class="layout-left">
     <div class="form-card">
 
@@ -10,14 +10,38 @@
 
       <form [formGroup]="form" (ngSubmit)="submit()">
 
+        <!-- USERNAME -->
         <div class="form-group">
           <label class="app-label">Username</label>
-          <input type="text" class="app-input" formControlName="username" placeholder="Enter your username">
+
+          <input 
+            type="text" 
+            class="app-input"
+            [class.invalid]="form.controls['username'].invalid && form.controls['username'].touched"
+            formControlName="username" 
+            placeholder="Enter your username"
+          >
+
+          <p class="error" *ngIf="form.controls['username'].touched && form.controls['username'].errors?.['required']">
+            Username is required
+          </p>
         </div>
 
+        <!-- PASSWORD -->
         <div class="form-group">
           <label class="app-label">Password</label>
-          <input type="password" class="app-input" formControlName="password" placeholder="Enter your password">
+
+          <input 
+            type="password" 
+            class="app-input"
+            [class.invalid]="form.controls['password'].invalid && form.controls['password'].touched"
+            formControlName="password" 
+            placeholder="Enter your password"
+          >
+
+          <p class="error" *ngIf="form.controls['password'].touched && form.controls['password'].errors?.['required']">
+            Password is required
+          </p>
         </div>
 
         <button type="submit" class="app-btn">Login</button>
@@ -27,13 +51,10 @@
       <div class="register-box mt-4 text-center">
         <p class="register-text">Not registered?</p>
 
-        <a routerLink="/auth/register/hod" class="register-link">
-          Register as HOD
-        </a>
+        <a routerLink="/auth/register/hod" class="register-link">Register as HOD</a>
         <span class="mx-2 text-muted">|</span>
-        <a routerLink="/auth/register/staff" class="register-link">
-          Register as Staff
-        </a>
+
+        <a routerLink="/auth/register/staff" class="register-link">Register as Staff</a>
       </div>
 
     </div>

@@ -1,16 +1,13 @@
 <div class="layout-split">
-
   <div class="layout-left">
     <div class="form-card">
 
       <div class="profile-photo-wrapper text-center mb-3">
         <label class="photo-circle d-inline-block">
-          <input type="file" class="photo-input" (change)="onFileChange($event)">
+          <input type="file" class="photo-input" (change)="onFileChange($event)" accept="image/*">
 
-          <!-- Upload preview -->
           <img *ngIf="profilePreview" [src]="profilePreview" alt="preview" />
 
-          <!-- Plus icon (shown only when no image) -->
           <span class="photo-text" *ngIf="!profilePreview">+</span>
         </label>
 
@@ -28,11 +25,23 @@
           <div class="form-group half" style="flex:1">
             <label class="app-label required">Full Name</label>
             <input type="text" class="app-input" formControlName="name">
+
+            <div *ngIf="f.name.touched && f.name.invalid" class="error">
+              <small *ngIf="f.name.errors?.required">Name is required</small>
+              <small *ngIf="f.name.errors?.minlength">Minimum 3 characters</small>
+              <small *ngIf="f.name.errors?.pattern">Only alphabets and spaces allowed</small>
+            </div>
           </div>
 
           <div class="form-group half" style="flex:1">
             <label class="app-label required">Username</label>
             <input type="text" class="app-input" formControlName="username">
+
+            <div *ngIf="f.username.touched && f.username.invalid" class="error">
+              <small *ngIf="f.username.errors?.required">Username is required</small>
+              <small *ngIf="f.username.errors?.minlength">Minimum 3 characters</small>
+              <small *ngIf="f.username.errors?.pattern">Spaces are not allowed</small>
+            </div>
           </div>
         </div>
 
@@ -40,11 +49,21 @@
           <div class="form-group half" style="flex:1">
             <label class="app-label required">Email</label>
             <input type="email" class="app-input" formControlName="email">
+
+            <div *ngIf="f.email.touched && f.email.invalid" class="error">
+              <small *ngIf="f.email.errors?.required">Email is required</small>
+              <small *ngIf="f.email.errors?.email">Invalid email format</small>
+            </div>
           </div>
 
           <div class="form-group half" style="flex:1">
             <label class="app-label required">Contact Number</label>
-            <input type="text" class="app-input" formControlName="mobile">
+            <input type="text" maxlength="10" class="app-input" formControlName="mobile" (input)="allowNumbersOnly($event)">
+
+            <div *ngIf="f.mobile.touched && f.mobile.invalid" class="error">
+              <small *ngIf="f.mobile.errors?.required">Mobile number is required</small>
+              <small *ngIf="f.mobile.errors?.pattern">Must be 10 digits only</small>
+            </div>
           </div>
         </div>
 
@@ -59,48 +78,49 @@
               <option>Civil Engineering</option>
               <option>Electronics Engineering</option>
             </select>
+
+            <div *ngIf="f.department.touched && f.department.invalid" class="error">
+              <small *ngIf="f.department.errors?.required">Department is required</small>
+            </div>
           </div>
 
           <div class="form-group half" style="flex:1">
             <label class="app-label required">Password</label>
             <input type="password" class="app-input" formControlName="password">
+
+            <div *ngIf="f.password.touched && f.password.invalid" class="error">
+              <small *ngIf="f.password.errors?.required">Password is required</small>
+              <small *ngIf="f.password.errors?.minlength">Min 6 characters</small>
+              <small *ngIf="f.password.errors?.pattern">Must contain 1 uppercase, 1 lowercase and 1 number</small>
+            </div>
           </div>
         </div>
 
-        <button type="submit" class="app-btn mt-3">Register</button>
+        <button type="submit" class="app-btn mt-3">
+          {{ submitting ? 'Registering...' : 'Register' }}
+        </button>
+
 
       </form>
 
       <div class="register-box mt-4 text-center">
         <p class="register-text">Already registered?</p>
-        <a routerLink="/auth/login" class="register-link">
-          Login here
-        </a>
+        <a routerLink="/auth/login" class="register-link">Login here</a>
       </div>
 
     </div>
   </div>
 
   <div class="layout-right">
-
     <ng-container *ngIf="role === 'HOD'; else staffRight">
       <h2 class="side-title">Lead Your Department</h2>
-      <p class="side-text">
-        As the Head of Department, you can manage staff records,<br>
-        review leave applications, approve or reject requests,<br>
-        and ensure smooth departmental operations.
-      </p>
+      <p class="side-text">As the Head of Department, you can manage staff records,<br>review leave applications, approve or reject requests,<br>and ensure smooth departmental operations.</p>
     </ng-container>
 
     <ng-template #staffRight>
       <h2 class="side-title">Welcome to Your Portal</h2>
-      <p class="side-text">
-        As a Staff Member, you can apply for leaves, view leave history,<br>
-        track approval status, and stay updated with departmental<br>
-        processes seamlessly.
-      </p>
+      <p class="side-text">As a Staff Member, you can apply for leaves, view leave history,<br>track approval status, and stay updated with departmental<br>processes seamlessly.</p>
     </ng-template>
 
   </div>
-
 </div>
