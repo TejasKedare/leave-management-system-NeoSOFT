@@ -15,6 +15,7 @@ import { ToastrService } from 'ngx-toastr';
 export class Login {
 
   form: any;
+  showPassword: boolean = false;
 
 
   constructor(
@@ -31,6 +32,11 @@ export class Login {
       password: ['', Validators.required]
     });
 
+  }
+
+
+  togglePassword() {
+    this.showPassword = !this.showPassword;
   }
 
 

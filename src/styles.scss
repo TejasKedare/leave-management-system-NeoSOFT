@@ -2,14 +2,14 @@
 @import "ngx-toastr/toastr";
 
 
-$primary: #4f46e5;     // Indigo
-$secondary: #06b6d4;   // Cyan
-$success: #10b981;     // Green
-$danger: #ef4444;      // Red
-$warning: #f59e0b;     // Amber
-$info: #3b82f6;        // Blue
-$light: #f8fafc;       // Off White
-$dark: #0f172a;        // Navy Slate
+$primary: #4f46e5; // Indigo
+$secondary: #06b6d4; // Cyan
+$success: #10b981; // Green
+$danger: #ef4444; // Red
+$warning: #f59e0b; // Amber
+$info: #3b82f6; // Blue
+$light: #f8fafc; // Off White
+$dark: #0f172a; // Navy Slate
 
 $body-bg: #f6f8fb;
 $body-color: #0b1220;
@@ -21,6 +21,7 @@ body {
   color: #0b1220;
   font-family: "Inter", sans-serif;
 }
+
 /* -- GENERIC SPLIT SCREEN LAYOUT -- */
 .layout-split {
   display: flex;
@@ -30,19 +31,19 @@ body {
 
 /* LEFT SIDE (Form Area) */
 .layout-left {
-  flex: 1.2;                // More space for form
+  flex: 1.2; // More space for form
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 3rem;            // Larger padding
+  padding: 3rem; // Larger padding
 }
 
 /* FORM CARD (Make Bigger) */
 .form-card {
   background: $light;
-  padding: 3rem 2.5rem;     // Bigger form
+  padding: 3rem 2.5rem; // Bigger form
   border-radius: 1.2rem;
-  width: 600px;             // Increased width
+  width: 600px; // Increased width
   max-width: 95%;
   box-shadow: 0 14px 34px rgba($dark, 0.12);
 }
@@ -54,7 +55,7 @@ body {
 }
 
 .form-title {
-  font-size: 1.9rem;         // Larger heading
+  font-size: 1.9rem; // Larger heading
   font-weight: 700;
   color: $primary;
   margin: 0;
@@ -100,10 +101,10 @@ body {
   background: $primary;
   color: $light;
   border: none;
-  padding: 0.9rem 1.2rem;     // Larger button
+  padding: 0.9rem 1.2rem; // Larger button
   border-radius: 0.65rem;
   font-weight: 600;
-  font-size: 1.1rem;          // Bigger font
+  font-size: 1.1rem; // Bigger font
   cursor: pointer;
   box-shadow: 0 8px 24px rgba($primary, 0.25);
   transition: all 0.25s ease;
@@ -143,7 +144,7 @@ body {
 }
 
 .asterisks {
-  color: $danger; 
+  color: $danger;
   font-weight: 700;
 }
 
@@ -151,7 +152,27 @@ body {
   color: $danger;
 }
 
-/* RESPONSIVE */
+.password-wrapper {
+  position: relative;
+}
+
+.toggle-icon {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+.toggle-icon:hover {
+  opacity: 1;
+}
+
+
+/* small device */
 @media (max-width: 992px) {
   .layout-split {
     flex-direction: column;

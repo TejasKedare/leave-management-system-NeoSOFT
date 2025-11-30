@@ -15,9 +15,10 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class Register {
   role: 'HOD' | 'STAFF' = 'STAFF';
-  profilePreview = '';
+  profilePreview: string= '';
   form: any;
-  submitting = false;
+  submitting: boolean = false;
+  showPassword: boolean = false
 
   constructor(
     private fb: FormBuilder,
@@ -159,6 +160,10 @@ export class Register {
         this.toastr.error('Server error. Please try again.', 'Server Error');
       }
     });
+  }
+
+    togglePassword() {
+    this.showPassword = !this.showPassword;
   }
 
 }

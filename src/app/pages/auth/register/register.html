@@ -85,15 +85,31 @@
           </div>
 
           <div class="form-group half" style="flex:1">
-            <label class="app-label required">Password</label>
-            <input type="password" class="app-input" formControlName="password">
+  <label class="app-label required">Password</label>
 
-            <div *ngIf="f.password.touched && f.password.invalid" class="error">
-              <small *ngIf="f.password.errors?.required">Password is required</small>
-              <small *ngIf="f.password.errors?.minlength">Min 6 characters</small>
-              <small *ngIf="f.password.errors?.pattern">Must contain 1 uppercase, 1 lowercase and 1 number</small>
-            </div>
-          </div>
+  <div class="password-wrapper">
+    <input
+      [type]="showPassword ? 'text' : 'password'"
+      class="app-input"
+      formControlName="password"
+      placeholder="Enter your password"
+    />
+
+    <img
+      class="toggle-icon"
+      [src]="showPassword ? 'assets/icons/hide-password.svg' : 'assets/icons/show-password.svg'"
+      alt="toggle password visibility"
+      (click)="togglePassword()"
+    />
+  </div>
+
+  <div *ngIf="f.password.touched && f.password.invalid" class="error">
+    <small *ngIf="f.password.errors?.required">Password is required</small>
+    <small *ngIf="f.password.errors?.minlength">Min 6 characters</small>
+    <small *ngIf="f.password.errors?.pattern">Must contain 1 uppercase, 1 lowercase and 1 number</small>
+  </div>
+</div>
+
         </div>
 
         <button type="submit" class="app-btn mt-3">
