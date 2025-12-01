@@ -9,16 +9,20 @@
       <div class="row g-2">
         <div class="col-md-4">
           <label>From</label>
-          <input class="form-control" type="date" formControlName="fromDate" />
+          <input class="form-control" type="date" formControlName="fromDate" [min]="today" />
         </div>
+
+
         <div class="col-md-4">
           <label>To</label>
-          <input class="form-control" type="date" formControlName="toDate" />
+          <input class="form-control" type="date" formControlName="toDate" [min]="form.value.fromDate || today" />
         </div>
-        <div class="col-md-4">
+        <div class="col-md-12">
           <label>Reason</label>
-          <input class="form-control" formControlName="reason" />
+          <textarea class="form-control reason-box" rows="3" formControlName="reason"
+            placeholder="Enter reason for leave..."></textarea>
         </div>
+
       </div>
       <button class="btn btn-primary mt-3" type="submit">Apply</button>
     </form>
@@ -42,10 +46,8 @@
         <td>{{ l.toDate }}</td>
         <td>{{ l.reason }}</td>
         <td>
-          <span class="badge"
-                [class.bg-warning]="l.status==='PENDING'"
-                [class.bg-success]="l.status==='APPROVED'"
-                [class.bg-danger]="l.status==='REJECTED'">
+          <span class="badge" [class.bg-warning]="l.status==='PENDING'" [class.bg-success]="l.status==='APPROVED'"
+            [class.bg-danger]="l.status==='REJECTED'">
             {{ l.status }}
           </span>
         </td>
@@ -53,7 +55,9 @@
           <button class="btn btn-info btn-sm" (click)="view(l)">View</button>
         </td>
       </tr>
-      <tr *ngIf="!leaves.length"><td colspan="6" class="text-center text-muted">No leaves found</td></tr>
+      <tr *ngIf="!leaves.length">
+        <td colspan="6" class="text-center text-muted">No leaves found</td>
+      </tr>
     </tbody>
   </table>
 </div>

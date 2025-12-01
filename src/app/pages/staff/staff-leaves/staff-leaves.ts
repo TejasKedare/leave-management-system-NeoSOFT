@@ -16,6 +16,7 @@ export class StaffLeaves implements OnInit {
   leaves: any[] = [];
   showApply = false;
   form: any
+  today = new Date().toISOString().split('T')[0];
 
   constructor(private hodData: HodDataService, private auth: AuthService, private fb: FormBuilder) { }
 
