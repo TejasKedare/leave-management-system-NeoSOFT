@@ -35,15 +35,11 @@
         <td>
           <button class="btn btn-info btn-sm me-2" (click)="viewDetails(l)">View</button>
 
-          <button class="btn btn-success btn-sm me-2"
-                  [disabled]="l.status !== 'PENDING'"
-                  (click)="approve(l.id)">
+          <button class="btn btn-success btn-sm me-2" [disabled]="l.status !== 'PENDING'" (click)="approve(l.id, l.staffName)">
             Approve
           </button>
 
-          <button class="btn btn-danger btn-sm"
-                  [disabled]="l.status !== 'PENDING'"
-                  (click)="reject(l.id)">
+          <button class="btn btn-danger btn-sm" [disabled]="l.status !== 'PENDING'" (click)="reject(l.id, l.staffName)">
             Reject
           </button>
         </td>
@@ -51,8 +47,6 @@
     </tbody>
   </table>
 
-  <p class="text-center text-muted" *ngIf="!leaves.length">
-    No leave requests found.
-  </p>
+  <p class="text-center text-muted" *ngIf="!leaves.length"> No leave requests found. </p>
 
 </div>

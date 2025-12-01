@@ -140,12 +140,15 @@ export class StaffManagement {
   }
 
   // DELETE STAFF
-  deleteStaff(id: number) {
-    if (!confirm('Delete this staff?')) return;
+  deleteStaff(id: number, name: string) {
+    const ok = confirm(`Are you sure you want to delete ${name}?`);
+    if (!ok) return;
+
     this.hodData.deleteStaff(id);
     this.toastr.success("Staff deleted successfully!", "Deleted");
     this.loadStaff();
   }
+
 
   get f() {
     return this.form.controls;
