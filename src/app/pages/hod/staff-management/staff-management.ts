@@ -7,12 +7,11 @@ import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-staff-management',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule],
+  imports: [CommonModule,FormsModule, ReactiveFormsModule],
   templateUrl: './staff-management.html',
   styleUrls: ['./staff-management.scss']
 })
 export class StaffManagement {
-
   department = 'IT'; // TEMP until Auth is integrated
 
   staffList: any[] = [];
@@ -28,24 +27,28 @@ export class StaffManagement {
   searchQuery = '';
   showAdd = false;
 
-  addForm: any;
+  form: any;
+  submitting: boolean = false;
 
   constructor(
-    private hodData: HodDataService,
     private fb: FormBuilder,
+    private hodData: HodDataService,
     private toastr: ToastrService
   ) { }
 
   ngOnInit() {
-
-    // FIX 1 — initialize form WITH department
-    this.addForm = this.fb.group({
-      name: ['', Validators.required],
-      username: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      mobile: [''],
-      department: [this.department]
+    this.form = this.fb.group({
+      name: ['', [Validators.required, Validators.minLength(3), Validators.pattern(/^[A-Za-z ]+$/)]],
+      username: ['', [Validators.required, Validators.minLength(3), Validators.pattern(/^\S+$/)]],
+      email: ['', [Validators.required, Validators.email, Validators.pattern(/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/)]],
+      mobile: ['', [Validators.required, Validators.pattern(/^[0-9]{10}$/)]],
+      department: [this.department, Validators.required]
     });
+
+    // default department if not present
+    if (!this.form.value.department) {
+      this.form.patchValue({ department: 'IT' });
+    }
 
     this.loadStaff();
   }
@@ -81,7 +84,8 @@ export class StaffManagement {
   }
 
   calculatePages() {
-    this.totalPages = Math.ceil(this.filteredList.length / this.pageSize);
+    this.totalPages = Math.max(1, Math.ceil(this.filteredList.length / this.pageSize));
+    if (this.page > this.totalPages) this.page = this.totalPages;
   }
 
   get pageData() {
@@ -106,23 +110,34 @@ export class StaffManagement {
 
   // ADD STAFF
   addStaff() {
-    if (!this.addForm) return;
+    if (!this.form) {
+      this.toastr.error("Form not initialized");
+      return;
+    }
 
-    if (this.addForm.invalid) {
-      Object.keys(this.addForm.controls).forEach(key => {
-        this.addForm.controls[key].markAsTouched();
+    if (this.form.invalid) {
+      Object.keys(this.form.controls).forEach(key => {
+        this.form.controls[key].markAsTouched();
       });
+
       this.toastr.error("Please fill all required fields correctly.", "Form Error");
       return;
     }
-    this.hodData.addStaff(this.addForm.value);
+
+    this.submitting = true;
+
+    const payload = { ...this.form.value };
+
+    this.hodData.addStaff(payload);
     this.toastr.success("Staff added successfully!", "Success");
     this.showAdd = false;
+
     // Reset form but keep department
-    this.addForm.reset({ department: this.department });
+    this.form.reset({ department: this.department });
+
+    this.submitting = false;
     this.loadStaff();
   }
-
 
   // DELETE STAFF
   deleteStaff(id: number) {
@@ -133,8 +148,13 @@ export class StaffManagement {
   }
 
   get f() {
-    return this.addForm.controls;
+    return this.form.controls;
   }
 
+  allowNumbersOnly(event: any) {
+  const cleaned = (event.target.value || '').replace(/[^0-9]/g, '');
+  event.target.value = cleaned;
+  this.form.patchValue({ mobile: cleaned });
+}
 
 }

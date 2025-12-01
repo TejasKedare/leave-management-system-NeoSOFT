@@ -17,70 +17,83 @@
   />
 
   <!-- Add Staff Form -->
-<!-- Add Staff Form -->
-<div *ngIf="showAdd" class="card p-3 border-0 shadow-sm mb-3">
-  <form [formGroup]="addForm" (ngSubmit)="addStaff()">
+  <div *ngIf="showAdd" class="card p-3 border-0 shadow-sm mb-3">
+    <form [formGroup]="form" (ngSubmit)="addStaff()">
 
-    <div class="row g-3">
+      <div class="row g-3">
 
-      <div class="col-md-4">
-        <label>Name</label>
-        <input 
-          formControlName="name" 
-          class="form-control" 
-          [class.is-invalid]="f.name.touched && f.name.invalid"
-        />
-        <div *ngIf="f.name.touched && f.name.invalid" class="text-danger small">
-          Name is required
+        <div class="col-md-4">
+          <label>Name</label>
+          <input
+            formControlName="name"
+            class="form-control"
+            [class.is-invalid]="f.name.touched && f.name.invalid"
+          />
+          <div *ngIf="f.name.touched && f.name.invalid" class="text-danger small">
+            <div *ngIf="f.name.errors?.required">Name is required</div>
+            <div *ngIf="f.name.errors?.minlength">Name must be at least 3 characters</div>
+            <div *ngIf="f.name.errors?.pattern">Only letters and spaces allowed</div>
+          </div>
         </div>
-      </div>
 
-      <div class="col-md-4">
-        <label>Username</label>
-        <input 
-          formControlName="username" 
-          class="form-control"
-          [class.is-invalid]="f.username.touched && f.username.invalid"
-        />
-        <div *ngIf="f.username.touched && f.username.invalid" class="text-danger small">
-          Username is required
+        <div class="col-md-4">
+          <label>Username</label>
+          <input
+            formControlName="username"
+            class="form-control"
+            [class.is-invalid]="f.username.touched && f.username.invalid"
+          />
+          <div *ngIf="f.username.touched && f.username.invalid" class="text-danger small">
+            <div *ngIf="f.username.errors?.required">Username is required</div>
+            <div *ngIf="f.username.errors?.minlength">Username must be at least 3 characters</div>
+            <div *ngIf="f.username.errors?.pattern">No spaces allowed in username</div>
+          </div>
         </div>
-      </div>
 
-      <div class="col-md-4">
-        <label>Email</label>
-        <input 
-          formControlName="email" 
-          class="form-control"
-          [class.is-invalid]="f.email.touched && f.email.invalid"
-        />
-        <div *ngIf="f.email.touched && f.email.invalid" class="text-danger small">
-          Enter a valid email
+        <div class="col-md-4">
+          <label>Email</label>
+          <input
+            formControlName="email"
+            class="form-control"
+            [class.is-invalid]="f.email.touched && f.email.invalid"
+          />
+          <div *ngIf="f.email.touched && f.email.invalid" class="text-danger small">
+            <div *ngIf="f.email.errors?.required">Email is required</div>
+            <div *ngIf="f.email.errors?.email || f.email.errors?.pattern">Enter a valid email</div>
+          </div>
         </div>
+
+        <div class="col-md-4">
+          <label>Mobile</label>
+          <input
+            type="tel"
+            formControlName="mobile"
+            class="form-control"
+            maxlength="10"
+            inputmode="numeric"
+            pattern="\d*"
+            (input)="allowNumbersOnly($event)"
+            [class.is-invalid]="f.mobile.touched && f.mobile.invalid"
+            placeholder=""
+          />
+          <div *ngIf="f.mobile.touched && f.mobile.invalid" class="text-danger small">
+            <div *ngIf="f.mobile.errors?.required">Mobile is required</div>
+            <div *ngIf="f.mobile.errors?.pattern">Enter a valid 10 digit mobile number</div>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <label>Department</label>
+          <input formControlName="department" class="form-control" readonly />
+        </div>
+
       </div>
 
-      <div class="col-md-4">
-        <label>Mobile</label>
-        <input 
-          formControlName="mobile" 
-          class="form-control"
-          maxlength="10"
-        />
-      </div>
-
-      <div class="col-md-4">
-        <label>Department</label>
-        <input formControlName="department" class="form-control" readonly />
-      </div>
-
-    </div>
-
-    <button class="btn btn-primary mt-3">
-      Add Staff
-    </button>
-
-  </form>
-</div>
+      <button class="btn btn-primary mt-3">
+        Add Staff
+      </button>
+    </form>
+  </div>
 
   <!-- Staff Table -->
   <table class="table table-hover shadow-sm">
