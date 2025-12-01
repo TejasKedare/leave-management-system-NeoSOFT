@@ -8,17 +8,20 @@
     <form [formGroup]="form" (ngSubmit)="apply()">
       <div class="row g-2">
         <div class="col-md-4">
-          <label>From</label>
+          <label class="fw-semibold">From</label>
           <input class="form-control" type="date" formControlName="fromDate" [min]="today" />
         </div>
 
-
         <div class="col-md-4">
-          <label>To</label>
-          <input class="form-control" type="date" formControlName="toDate" [min]="form.value.fromDate || today" />
+          <label class="fw-semibold">To</label>
+
+          <input class="form-control" type="date" formControlName="toDate" [min]="form.value.fromDate || today"
+            [disabled]="!form.value.fromDate" 
+          />
         </div>
+
         <div class="col-md-12">
-          <label>Reason</label>
+          <label class="fw-semibold" >Reason</label>
           <textarea class="form-control reason-box" rows="3" formControlName="reason"
             placeholder="Enter reason for leave..."></textarea>
         </div>
