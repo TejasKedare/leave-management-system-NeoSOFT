@@ -19,7 +19,7 @@ export class HodDataService {
   init(): Observable<boolean> {
 
     // Normalize existing LS data on startup
-    this.migrateLocalStorageIfNeeded();
+    // this.migrateLocalStorageIfNeeded();
 
     const staffLS = localStorage.getItem(STAFF_KEY);
     const leavesLS = localStorage.getItem(LEAVES_KEY);
