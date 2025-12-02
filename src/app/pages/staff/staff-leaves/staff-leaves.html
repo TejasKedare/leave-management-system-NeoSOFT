@@ -37,6 +37,7 @@
         <th>Sr No.</th>
         <th>From</th>
         <th>To</th>
+        <th>Days</th>
         <th>Reason</th>
         <th>Status</th>
         <th>Action</th>
@@ -47,6 +48,7 @@
         <td>{{ i + 1 }}</td>
         <td>{{ l.fromDate | dateFormat}}</td>
         <td>{{ l.toDate  | dateFormat}}</td>
+        <td>{{ getLeaveCount(l.fromDate, l.toDate) }}</td>
         <td>{{ l.reason }}</td>
         <td>
           <span class="badge" [class.bg-warning]="l.status==='PENDING'" [class.bg-success]="l.status==='APPROVED'"

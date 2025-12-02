@@ -9,6 +9,7 @@
         <th>Staff</th>
         <th>From</th>
         <th>To</th>
+        <th>Days</th>
         <th>Reason</th>
         <th>Status</th>
         <th>Action</th>
@@ -19,23 +20,22 @@
       <tr *ngFor="let l of leaves; let i = index;">
         <td>{{ i + 1 }}</td>
         <td>{{ l.staffName }}</td>
-        <td>{{ l.fromDate | dateFormat}}</td>
+        <td>{{ l.fromDate | dateFormat }}</td>
         <td>{{ l.toDate | dateFormat }}</td>
+        <td>{{ getLeaveCount(l.fromDate, l.toDate) }}</td>
         <td>{{ l.reason }}</td>
 
         <td>
-          <span class="badge"
-                [class.bg-warning]="l.status === 'PENDING'"
-                [class.bg-success]="l.status === 'APPROVED'"
-                [class.bg-danger]="l.status === 'REJECTED'">
+          <span class="badge" [class.bg-warning]="l.status === 'PENDING'" [class.bg-success]="l.status === 'APPROVED'"
+            [class.bg-danger]="l.status === 'REJECTED'">
             {{ l.status }}
           </span>
         </td>
 
         <td>
           <button class="btn btn-info btn-sm me-2" (click)="viewDetails(l)">View</button>
-
-          <button class="btn btn-success btn-sm me-2" [disabled]="l.status !== 'PENDING'" (click)="approve(l.id, l.staffName)">
+          <button class="btn btn-success btn-sm me-2" [disabled]="l.status !== 'PENDING'"
+            (click)="approve(l.id, l.staffName)">
             Approve
           </button>
 
@@ -46,6 +46,7 @@
       </tr>
     </tbody>
   </table>
+
 
   <p class="text-center text-muted" *ngIf="!leaves.length"> No leave requests found. </p>
 

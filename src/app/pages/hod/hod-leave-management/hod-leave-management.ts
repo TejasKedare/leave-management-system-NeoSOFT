@@ -24,7 +24,7 @@ export class HodLeaveManagement {
   constructor(
     private hodData: HodDataService,
     private dateFormat: DateFormatPipe
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.loadLeaves();
@@ -80,19 +80,29 @@ export class HodLeaveManagement {
     );
   }
 
+  getLeaveCount(from: string, to: string): number {
+    const start = new Date(from);
+    const end = new Date(to);
+
+    const diff = end.getTime() - start.getTime();
+    return Math.floor(diff / (1000 * 60 * 60 * 24)) + 1;
+  }
+
+
   viewDetails(l: any) {
     this.openModal(
       'Leave Details',
       `
         <strong>From:</strong> ${this.dateFormat.transform(l.fromDate)}<br/>
         <strong>To:</strong> ${this.dateFormat.transform(l.toDate)}<br/>
+        <strong>Days:</strong> ${this.getLeaveCount(l.fromDate, l.toDate)}<br/> 
         <strong>Reason:</strong> ${l.reason}<br/>
         <strong>Status:</strong> <span class="badge 
           ${l.status === 'PENDING' ? 'bg-warning' : l.status === 'APPROVED' ? 'bg-success' : 'bg-danger'}">
           ${l.status}
         </span>
       `,
-      () => {}
+      () => { }
     );
   }
 }

@@ -21,6 +21,7 @@ declare var bootstrap: any;
   templateUrl: './staff-leaves.html',
   styleUrls: ['./staff-leaves.scss']
 })
+
 export class StaffLeaves implements OnInit {
   staffId = 0;
   leaves: any[] = [];
@@ -37,7 +38,7 @@ export class StaffLeaves implements OnInit {
     private fb: FormBuilder,
     private toastr: ToastrService,
     private dateFormat: DateFormatPipe
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.form = this.fb.group({
@@ -48,7 +49,7 @@ export class StaffLeaves implements OnInit {
 
     this.form.get('fromDate')!.valueChanges.subscribe((from: string) => {
       const toCtrl = this.form.get('toDate')!;
-      
+
       toCtrl.reset();
       toCtrl.disable();
 
@@ -106,18 +107,28 @@ export class StaffLeaves implements OnInit {
     modal?.hide();
   }
 
+  getLeaveCount(from: string, to: string): number {
+    const start = new Date(from);
+    const end = new Date(to);
+
+    const diff = end.getTime() - start.getTime();
+    return Math.floor(diff / (1000 * 60 * 60 * 24)) + 1; // inclusive
+  }
+
+
   view(l: any) {
     this.openModal(
       'Leave Details',
       `
-        <strong>From:</strong> ${this.dateFormat.transform(l.fromDate)}<br/>
-        <strong>To:</strong> ${this.dateFormat.transform(l.toDate)}<br/>
-        <strong>Reason:</strong> ${l.reason}<br/>
-        <strong>Status:</strong> <span class="badge 
-          ${l.status === 'PENDING' ? 'bg-warning' : l.status === 'APPROVED' ? 'bg-success' : 'bg-danger'}">
-          ${l.status}
-        </span>
-      `
+      <strong>From:</strong> ${this.dateFormat.transform(l.fromDate)}<br/>
+      <strong>To:</strong> ${this.dateFormat.transform(l.toDate)}<br/>
+      <strong>Days:</strong> ${this.getLeaveCount(l.fromDate, l.toDate)}<br/>
+      <strong>Reason:</strong> ${l.reason}<br/>
+      <strong>Status:</strong> <span class="badge 
+        ${l.status === 'PENDING' ? 'bg-warning' : l.status === 'APPROVED' ? 'bg-success' : 'bg-danger'}">
+        ${l.status}
+      </span>
+    `
     );
   }
 }
