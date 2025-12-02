@@ -3,13 +3,21 @@ import { CommonModule } from '@angular/common';
 import { HodDataService } from '../../../services/hod.service';
 import { AuthService } from '../../../services/auth.service';
 import { FormBuilder, ReactiveFormsModule, Validators, FormsModule, AbstractControl } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
+import { DateFormatPipe } from '../../../pipes/date-format-pipe';
 
 declare var bootstrap: any;
 
 @Component({
   selector: 'app-staff-leaves',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, FormsModule],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    FormsModule,
+    DateFormatPipe
+  ],
+  providers: [DateFormatPipe],
   templateUrl: './staff-leaves.html',
   styleUrls: ['./staff-leaves.scss']
 })
@@ -20,14 +28,15 @@ export class StaffLeaves implements OnInit {
   form: any;
   today = new Date().toISOString().split('T')[0];
 
-  // modal state
   modalTitle = '';
   modalMessage = '';
 
   constructor(
     private hodData: HodDataService,
     private auth: AuthService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private toastr: ToastrService,
+    private dateFormat: DateFormatPipe
   ) {}
 
   ngOnInit() {
@@ -76,12 +85,12 @@ export class StaffLeaves implements OnInit {
       reason: this.form.value.reason
     });
 
+    this.toastr.success('Your leave request has been submitted!', 'Success');
     this.form.reset();
     this.showApply = false;
     this.load();
   }
 
-  // SIMPLE MODAL OPEN
   openModal(title: string, message: string) {
     this.modalTitle = title;
     this.modalMessage = message;
@@ -101,8 +110,8 @@ export class StaffLeaves implements OnInit {
     this.openModal(
       'Leave Details',
       `
-        <strong>From:</strong> ${l.fromDate}<br/>
-        <strong>To:</strong> ${l.toDate}<br/>
+        <strong>From:</strong> ${this.dateFormat.transform(l.fromDate)}<br/>
+        <strong>To:</strong> ${this.dateFormat.transform(l.toDate)}<br/>
         <strong>Reason:</strong> ${l.reason}<br/>
         <strong>Status:</strong> <span class="badge 
           ${l.status === 'PENDING' ? 'bg-warning' : l.status === 'APPROVED' ? 'bg-success' : 'bg-danger'}">

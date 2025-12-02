@@ -19,8 +19,8 @@
       <tr *ngFor="let l of leaves; let i = index;">
         <td>{{ i + 1 }}</td>
         <td>{{ l.staffName }}</td>
-        <td>{{ l.fromDate }}</td>
-        <td>{{ l.toDate }}</td>
+        <td>{{ l.fromDate | dateFormat}}</td>
+        <td>{{ l.toDate | dateFormat }}</td>
         <td>{{ l.reason }}</td>
 
         <td>

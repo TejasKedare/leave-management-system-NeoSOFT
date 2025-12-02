@@ -1,31 +1,33 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HodDataService } from '../../../services/hod.service';
+import { DateFormatPipe } from '../../../pipes/date-format-pipe';
 
 declare var bootstrap: any;
 
 @Component({
   selector: 'app-hod-leave-management',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, DateFormatPipe],
+  providers: [DateFormatPipe],
   templateUrl: './hod-leave-management.html',
   styleUrls: ['./hod-leave-management.scss']
 })
-
-
 export class HodLeaveManagement {
   department = 'IT';
   leaves: any[] = [];
 
-  // modal state
   modalTitle = '';
   modalMessage = '';
   modalAction: (() => void) | null = null;
 
-  constructor(private hodData: HodDataService) {}
+  constructor(
+    private hodData: HodDataService,
+    private dateFormat: DateFormatPipe
+  ) {}
 
   ngOnInit() {
-    this.loadLeaves()
+    this.loadLeaves();
   }
 
   loadLeaves() {
@@ -82,10 +84,13 @@ export class HodLeaveManagement {
     this.openModal(
       'Leave Details',
       `
-        <strong>From:</strong> ${l.fromDate}<br>
-        <strong>To:</strong> ${l.toDate}<br>
-        <strong>Reason:</strong> ${l.reason}<br>
-        <strong>Status:</strong> ${l.status}<br>
+        <strong>From:</strong> ${this.dateFormat.transform(l.fromDate)}<br/>
+        <strong>To:</strong> ${this.dateFormat.transform(l.toDate)}<br/>
+        <strong>Reason:</strong> ${l.reason}<br/>
+        <strong>Status:</strong> <span class="badge 
+          ${l.status === 'PENDING' ? 'bg-warning' : l.status === 'APPROVED' ? 'bg-success' : 'bg-danger'}">
+          ${l.status}
+        </span>
       `,
       () => {}
     );
