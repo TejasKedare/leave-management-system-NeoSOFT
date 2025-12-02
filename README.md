@@ -22,7 +22,7 @@ Includes separate workflows for **HOD** and **Staff**, using clean Bootstrap UI 
 ---
 
 ## Tech Stack
-- **Angular 17+ (Standalone Components)**
+- **Angular 20**
 - **Bootstrap 5**
 - **TypeScript**
 - **LocalStorage (mock backend)**
