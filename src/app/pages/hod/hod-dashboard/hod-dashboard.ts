@@ -17,12 +17,10 @@ export class HodDashboard {
   constructor(private hodData: HodDataService) {}
 
   ngOnInit() {
-    this.hodData.init().subscribe(() => {
-      const staff = this.hodData.getStaff();
-      const leaves = this.hodData.getLeaves();
+    const staff = this.hodData.getStaff();
+    const leaves = this.hodData.getLeaves();
 
-      this.staffCount = staff.filter(s => s.department === this.department).length;
-      this.leaveCount = leaves.length;
-    });
+    this.staffCount = staff.filter(s => s.department === this.department).length;
+    this.leaveCount = leaves.length;
   }
 }

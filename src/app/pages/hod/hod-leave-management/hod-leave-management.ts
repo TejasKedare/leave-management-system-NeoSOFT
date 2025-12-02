@@ -25,7 +25,7 @@ export class HodLeaveManagement {
   constructor(private hodData: HodDataService) {}
 
   ngOnInit() {
-    this.hodData.init().subscribe(() => this.loadLeaves());
+    this.loadLeaves()
   }
 
   loadLeaves() {
