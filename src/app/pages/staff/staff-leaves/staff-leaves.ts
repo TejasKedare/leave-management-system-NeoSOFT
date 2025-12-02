@@ -4,6 +4,8 @@ import { HodDataService } from '../../../services/hod.service';
 import { AuthService } from '../../../services/auth.service';
 import { FormBuilder, ReactiveFormsModule, Validators, FormsModule, AbstractControl } from '@angular/forms';
 
+declare var bootstrap: any;
+
 @Component({
   selector: 'app-staff-leaves',
   standalone: true,
@@ -15,10 +17,18 @@ export class StaffLeaves implements OnInit {
   staffId = 0;
   leaves: any[] = [];
   showApply = false;
-  form: any
+  form: any;
   today = new Date().toISOString().split('T')[0];
 
-  constructor(private hodData: HodDataService, private auth: AuthService, private fb: FormBuilder) { }
+  // modal state
+  modalTitle = '';
+  modalMessage = '';
+
+  constructor(
+    private hodData: HodDataService,
+    private auth: AuthService,
+    private fb: FormBuilder
+  ) {}
 
   ngOnInit() {
     this.form = this.fb.group({
@@ -29,13 +39,12 @@ export class StaffLeaves implements OnInit {
 
     this.form.get('fromDate')!.valueChanges.subscribe((from: string) => {
       const toCtrl = this.form.get('toDate')!;
-
+      
       toCtrl.reset();
       toCtrl.disable();
 
       if (from) {
         toCtrl.enable();
-        toCtrl.setValue('');
         toCtrl.setValidators([
           Validators.required,
           (control: AbstractControl) => {
@@ -49,6 +58,7 @@ export class StaffLeaves implements OnInit {
 
     const user = this.auth.getCurrentUserSync();
     if (!user) return;
+
     this.staffId = user.id;
     this.load();
   }
@@ -71,8 +81,34 @@ export class StaffLeaves implements OnInit {
     this.load();
   }
 
+  // SIMPLE MODAL OPEN
+  openModal(title: string, message: string) {
+    this.modalTitle = title;
+    this.modalMessage = message;
+
+    const el = document.getElementById('leaveViewModal');
+    const modal = new bootstrap.Modal(el!);
+    modal.show();
+  }
+
+  closeModal() {
+    const el = document.getElementById('leaveViewModal');
+    const modal = bootstrap.Modal.getInstance(el!);
+    modal?.hide();
+  }
 
   view(l: any) {
-    alert(`From: ${l.fromDate}\nTo: ${l.toDate}\nReason: ${l.reason}\nStatus: ${l.status}`);
+    this.openModal(
+      'Leave Details',
+      `
+        <strong>From:</strong> ${l.fromDate}<br/>
+        <strong>To:</strong> ${l.toDate}<br/>
+        <strong>Reason:</strong> ${l.reason}<br/>
+        <strong>Status:</strong> <span class="badge 
+          ${l.status === 'PENDING' ? 'bg-warning' : l.status === 'APPROVED' ? 'bg-success' : 'bg-danger'}">
+          ${l.status}
+        </span>
+      `
+    );
   }
 }

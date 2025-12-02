@@ -4,6 +4,8 @@ import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angu
 import { HodDataService } from '../../../services/hod.service';
 import { ToastrService } from 'ngx-toastr';
 
+declare var bootstrap: any;
+
 @Component({
   selector: 'app-staff-management',
   standalone: true,
@@ -12,8 +14,7 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./staff-management.scss']
 })
 export class StaffManagement {
-  department = 'IT'; // TEMP until Auth is integrated
-
+  department = 'IT';
   staffList: any[] = [];
   filteredList: any[] = [];
 
@@ -29,6 +30,10 @@ export class StaffManagement {
 
   form: any;
   submitting: boolean = false;
+
+  modalTitle = '';
+  modalMessage = '';
+  modalAction: (() => void) | null = null;
 
   constructor(
     private fb: FormBuilder,
@@ -139,25 +144,56 @@ export class StaffManagement {
     this.loadStaff();
   }
 
-  // DELETE STAFF
-  deleteStaff(id: number, name: string) {
-    const ok = confirm(`Are you sure you want to delete ${name}?`);
-    if (!ok) return;
+  openModal(title: string, message: string, action: () => void) {
+    this.modalTitle = title;
+    this.modalMessage = message;
+    this.modalAction = action;
 
-    this.hodData.deleteStaff(id);
-    this.toastr.success("Staff deleted successfully!", "Deleted");
-    this.loadStaff();
+    const modalEl = document.getElementById('actionModalStaff');
+    const modal = new bootstrap.Modal(modalEl!);
+    modal.show();
   }
 
+  modalCancel() {
+    const modalEl = document.getElementById('actionModalStaff');
+    const modal = bootstrap.Modal.getInstance(modalEl!);
+    modal?.hide();
+  }
+
+  modalConfirm() {
+    if (this.modalAction) {
+      try {
+        this.modalAction();
+      } catch (err) {
+        console.error('Modal action error', err);
+      }
+    }
+
+    const modalEl = document.getElementById('actionModalStaff');
+    const modal = bootstrap.Modal.getInstance(modalEl!);
+    modal?.hide();
+  }
+
+  deleteStaff(id: number, name: string) {
+    this.openModal(
+      'Delete Staff',
+      `Are you sure you want to delete <strong>${name}</strong>? This action cannot be undone.`,
+      () => {
+        this.hodData.deleteStaff(id);
+        this.toastr.success("Staff deleted successfully!", "Deleted");
+        this.loadStaff();
+      }
+    );
+  }
 
   get f() {
     return this.form.controls;
   }
 
   allowNumbersOnly(event: any) {
-  const cleaned = (event.target.value || '').replace(/[^0-9]/g, '');
-  event.target.value = cleaned;
-  this.form.patchValue({ mobile: cleaned });
-}
+    const cleaned = (event.target.value || '').replace(/[^0-9]/g, '');
+    event.target.value = cleaned;
+    this.form.patchValue({ mobile: cleaned });
+  }
 
 }
