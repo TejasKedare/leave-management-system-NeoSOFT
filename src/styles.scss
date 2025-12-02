@@ -171,6 +171,10 @@ body {
   opacity: 1;
 }
 
+.disable-styles {
+  pointer-events: none;
+  opacity: 0.5;
+}
 
 /* small device */
 @media (max-width: 992px) {
